@@ -9,7 +9,7 @@ export const signUp = async (req, res) => {
     const existingUser = await User.findOne({ email });
 
     if (existingUser)
-      return res.status(400).json({ message: "Email already exists " });
+      return res.status(400).json({ message: "Email already exists" });
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -23,7 +23,7 @@ export const signUp = async (req, res) => {
 
     const token = jwt.sign(
       { userId: newUser._id, role: newUser.role },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET || "secret",
       { expiresIn: "7d" },
     );
 
@@ -58,7 +58,7 @@ export const login = async (req, res) => {
 
     const token = jwt.sign(
       { userId: user._id, role: user.role },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET || "secret",
       { expiresIn: "7d" },
     );
 
