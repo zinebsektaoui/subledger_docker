@@ -1,0 +1,21 @@
+name: Project CI pipeline
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    test:
+        run_on: ubuntu-latest
+        container:
+            image: node:20
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  node-version: 20
+            - run: npm ci
+            - run: npm test
